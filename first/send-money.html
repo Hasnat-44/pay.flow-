@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send Money - PayFlow</title>
+    <link rel="stylesheet" href="send-money.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-credit-card"></i>
+                <span>PayFlow</span>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i>
+                    Dashboard
+                </a>
+                <a href="#" class="nav-link active">
+                    <i class="fas fa-paper-plane"></i>
+                    Send Money
+                </a>
+                <a href="#" class="nav-link">
+                    <i class="fas fa-wallet"></i>
+                    Wallet
+                </a>
+                <a href="#" class="nav-link">
+                    <i class="fas fa-chart-line"></i>
+                    Analytics
+                </a>
+            </div>
+            <div class="nav-user">
+                <div class="user-notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">2</span>
+                </div>
+                <div class="user-profile">
+                    <img src="https://via.placeholder.com/40x40/2563eb/ffffff?text=JD" alt="User" class="user-avatar">
+                    <span class="user-name">John Doe</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="send-money-container">
+            <!-- Header Section -->
+            <header class="page-header">
+                <div class="header-content">
+                    <h1>Send Money</h1>
+                    <p>Transfer funds securely to friends, family, or businesses</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-secondary" onclick="window.location.href='dashboard.html'">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to Dashboard
+                    </button>
+                </div>
+            </header>
+
+            <!-- Send Money Form -->
+            <div class="form-container">
+                <div class="form-card">
+                    <div class="form-header">
+                        <div class="form-icon">
+                            <i class="fas fa-paper-plane"></i>
+                        </div>
+                        <h2>Transfer Details</h2>
+                        <p>Enter recipient information and amount</p>
+                    </div>
+
+                    <form id="sendMoneyForm" class="send-money-form">
+                        <!-- Recipient Section -->
+                        <div class="form-section">
+                            <h3>Recipient Information</h3>
+                            
+                            <div class="form-group">
+                                <label for="recipientEmail">Recipient Email</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-envelope input-icon"></i>
+                                    <input 
+                                        type="email" 
+                                        id="recipientEmail" 
+                                        name="recipientEmail" 
+                                        placeholder="Enter recipient's email address"
+                                        required
+                                    >
+                                    <button type="button" class="input-action" id="searchRecipient">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                                <span class="error-message" id="emailError"></span>
+                                <div class="recipient-info" id="recipientInfo" style="display: none;">
+                                    <div class="recipient-avatar">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div class="recipient-details">
+                                        <h4 id="recipientName">Recipient Name</h4>
+                                        <p id="recipientEmailDisplay">email@example.com</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="recipientName">Recipient Name (Optional)</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-user input-icon"></i>
+                                    <input 
+                                        type="text" 
+                                        id="recipientNameInput" 
+                                        name="recipientName" 
+                                        placeholder="Enter recipient's full name"
+                                    >
+                                </div>
+                                <span class="error-message" id="nameError"></span>
+                            </div>
+                        </div>
+
+                        <!-- Amount Section -->
+                        <div class="form-section">
+                            <h3>Transfer Amount</h3>
+                            
+                            <div class="form-group">
+                                <label for="amount">Amount</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-dollar-sign input-icon"></i>
+                                    <input 
+                                        type="number" 
+                                        id="amount" 
+                                        name="amount" 
+                                        placeholder="0.00"
+                                        min="0.01"
+                                        step="0.01"
+                                        required
+                                    >
+                                </div>
+                                <span class="error-message" id="amountError"></span>
+                                <div class="amount-info">
+                                    <div class="balance-info">
+                                        <span>Available Balance:</span>
+                                        <span class="balance-amount">$24,567.89</span>
+                                    </div>
+                                    <div class="fee-info">
+                                        <span>Transfer Fee:</span>
+                                        <span class="fee-amount" id="feeAmount">$0.00</span>
+                                    </div>
+                                    <div class="total-info">
+                                        <span>Total Amount:</span>
+                                        <span class="total-amount" id="totalAmount">$0.00</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="message">Message (Optional)</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-comment input-icon"></i>
+                                    <textarea 
+                                        id="message" 
+                                        name="message" 
+                                        placeholder="Add a personal message"
+                                        rows="3"
+                                        maxlength="200"
+                                    ></textarea>
+                                </div>
+                                <div class="char-count">
+                                    <span id="charCount">0</span>/200 characters
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Method Section -->
+                        <div class="form-section">
+                            <h3>Payment Method</h3>
+                            
+                            <div class="payment-methods">
+                                <label class="payment-method">
+                                    <input type="radio" name="paymentMethod" value="wallet" checked>
+                                    <div class="method-card">
+                                        <div class="method-icon">
+                                            <i class="fas fa-wallet"></i>
+                                        </div>
+                                        <div class="method-details">
+                                            <h4>PayFlow Wallet</h4>
+                                            <p>Pay from your wallet balance</p>
+                                        </div>
+                                        <div class="method-check">
+                                            <i class="fas fa-check"></i>
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <label class="payment-method">
+                                    <input type="radio" name="paymentMethod" value="card">
+                                    <div class="method-card">
+                                        <div class="method-icon">
+                                            <i class="fas fa-credit-card"></i>
+                                        </div>
+                                        <div class="method-details">
+                                            <h4>Credit/Debit Card</h4>
+                                            <p>Pay with your linked card</p>
+                                        </div>
+                                        <div class="method-check">
+                                            <i class="fas fa-check"></i>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Confirmation Section -->
+                        <div class="form-section">
+                            <h3>Review & Confirm</h3>
+                            
+                            <div class="confirmation-summary" id="confirmationSummary">
+                                <div class="summary-item">
+                                    <span>Recipient:</span>
+                                    <span id="summaryRecipient">Not specified</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Amount:</span>
+                                    <span id="summaryAmount">$0.00</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Fee:</span>
+                                    <span id="summaryFee">$0.00</span>
+                                </div>
+                                <div class="summary-item total">
+                                    <span>Total:</span>
+                                    <span id="summaryTotal">$0.00</span>
+                                </div>
+                            </div>
+
+                            <div class="form-options">
+                                <label class="checkbox-wrapper">
+                                    <input type="checkbox" id="confirmTransfer" name="confirmTransfer" required>
+                                    <span class="checkmark"></span>
+                                    I confirm that I want to send this payment
+                                </label>
+                                <label class="checkbox-wrapper">
+                                    <input type="checkbox" id="saveRecipient" name="saveRecipient">
+                                    <span class="checkmark"></span>
+                                    Save recipient for future transfers
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                                <i class="fas fa-undo"></i>
+                                Reset Form
+                            </button>
+                            <button type="submit" class="btn btn-primary" id="sendButton">
+                                <span class="btn-text">
+                                    <i class="fas fa-paper-plane"></i>
+                                    Send Money
+                                </span>
+                                <span class="btn-loader" style="display: none;">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                </span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Quick Actions Sidebar -->
+                <div class="sidebar">
+                    <div class="sidebar-card">
+                        <h3>Quick Actions</h3>
+                        <div class="quick-actions">
+                            <button class="quick-action-btn" onclick="fillDemoData()">
+                                <i class="fas fa-magic"></i>
+                                Fill Demo Data
+                            </button>
+                            <button class="quick-action-btn" onclick="showRecentRecipients()">
+                                <i class="fas fa-history"></i>
+                                Recent Recipients
+                            </button>
+                            <button class="quick-action-btn" onclick="showTransferLimits()">
+                                <i class="fas fa-info-circle"></i>
+                                Transfer Limits
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <h3>Transfer Limits</h3>
+                        <div class="limits-info">
+                            <div class="limit-item">
+                                <span>Daily Limit:</span>
+                                <span>$10,000</span>
+                            </div>
+                            <div class="limit-item">
+                                <span>Monthly Limit:</span>
+                                <span>$50,000</span>
+                            </div>
+                            <div class="limit-item">
+                                <span>Min Transfer:</span>
+                                <span>$1.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <h3>Security Tips</h3>
+                        <ul class="security-tips">
+                            <li>Always verify the recipient's email address</li>
+                            <li>Double-check the amount before sending</li>
+                            <li>Use the message field to confirm the purpose</li>
+                            <li>Keep your account credentials secure</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal">
+            <div class="modal-header success">
+                <i class="fas fa-check-circle"></i>
+                <h3>Transfer Successful!</h3>
+            </div>
+            <div class="modal-content">
+                <p>Your money has been sent successfully.</p>
+                <div class="transfer-details">
+                    <div class="detail-item">
+                        <span>Transaction ID:</span>
+                        <span id="transactionId">TXN123456789</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Recipient:</span>
+                        <span id="modalRecipient">john@example.com</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Amount:</span>
+                        <span id="modalAmount">$100.00</span>
+                    </div>
+                    <div class="detail-item">
+                        <span>Date:</span>
+                        <span id="modalDate">January 15, 2024</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal()">
+                    <i class="fas fa-download"></i>
+                    Download Receipt
+                </button>
+                <button class="btn btn-primary" onclick="sendAnother()">
+                    <i class="fas fa-paper-plane"></i>
+                    Send Another
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div class="modal-overlay" id="errorModal">
+        <div class="modal">
+            <div class="modal-header error">
+                <i class="fas fa-exclamation-circle"></i>
+                <h3>Transfer Failed</h3>
+            </div>
+            <div class="modal-content">
+                <p id="errorMessage">An error occurred while processing your transfer.</p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                    Close
+                </button>
+                <button class="btn btn-primary" onclick="retryTransfer()">
+                    <i class="fas fa-redo"></i>
+                    Try Again
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth-service.js"></script>
+    <script src="send-money.js"></script>
+</body>
+</html> 
